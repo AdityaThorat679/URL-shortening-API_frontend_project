@@ -1,10 +1,6 @@
 version: '3'
 services:
   web:
-    build: ./path/to/dockerfile_or_build_context
+    build: .
     ports:
       - "80:80"
-    volumes:
-      - .:/code
-    environment:
-      - DEBUG=true
