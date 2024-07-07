@@ -1,6 +1,10 @@
-version : "3.3"
-services :
-  web :
-    build :
-    ports :
+version: '3'
+services:
+  web:
+    build: ./path/to/dockerfile_or_build_context
+    ports:
       - "80:80"
+    volumes:
+      - .:/code
+    environment:
+      - DEBUG=true
