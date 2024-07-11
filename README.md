@@ -15,7 +15,7 @@
 ### Steps and Setup the project
 - **Clone the repo**
 ```bash
-git clone https://github.com/AdityaThorat679/Huddle-landing-page_frontend_project.git
+git clone https://github.com/AdityaThorat679/URL-shortening-API_frontend_project.git
 ```
 Here, we are cloning our repo into our local system to check if the code is running and to add the Dockerfile to it.
 
@@ -36,13 +36,13 @@ CMD ["apachectl", "-D", "FOREGROUND"]
 
 - **Build Image**
 ```bash
-docker build -t huddle-landing-page .
+docker build -t url-shortening-api .
 ```
 This command builds a Docker image named huddle-landing-page with the tag latest using the Dockerfile found in the current directory.
 
 - **Run Image / Run Container**
  ```bash
-docker run -p 80:80 huddle-landing-page:leatest
+docker run -d -p 80:80 url-shortening-api
 ```
 Here's a simplified explanation of the command `docker run -p 80:80 huddle-landing-page:latest`:
 1. **docker run**: Starts a new Docker container.
@@ -110,7 +110,7 @@ pipeline {
         stage("Code"){
             steps {
                 echo "Clone the code"
-                git url:"https://github.com/AdityaThorat679/Huddle-landing-page_frontend_project.git/", branch: "main"
+                git url:"https://github.com/AdityaThorat679/URL-shortening-API_frontend_project.git", branch: "main"
             }
         }
         stage("Bulid"){
