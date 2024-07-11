@@ -1,130 +1,131 @@
-# Shortly - URL Shortening App
+# Huddle-landing-page_frontend_project
+## Tools & Technology Used:
+- Git
+- GitHub
+- Docker
+- Jenkins
 
-## Welcome! 👋
+## For Creating similar Architecture follow the below steps
+### Below are the article/document Links to install the required tools
+- [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+- [Docker](https://docs.docker.com/engine/install/)
+- [Jenkins](https://www.jenkins.io/doc/book/installing/)
 
-## Table of contents
 
-- [Overview](#overview)
-  - [The challenge](#the-challenge)
-  - [How to setup the project](#how-to-setup-the-project)
-  - [Screenshot](#screenshot)
-  - [Links](#links)
-- [My process](#my-process)
-  - [Built with](#built-with)
-  - [What I learned](#what-i-learned)
-  - [Continued development](#continued-development)
-  - [Useful resources](#useful-resources)
-- [Author](#author)
-- [Acknowledgments](#acknowledgments)
+### Steps and Setup the project
+- **Clone the repo**
+```bash
+git clone https://github.com/AdityaThorat679/Huddle-landing-page_frontend_project.git
+```
+Here, we are cloning our repo into our local system to check if the code is running and to add the Dockerfile to it.
 
-## Overview
+- **Dockerfile creation**
+```bash
+FROM httpd
+COPY . /usr/local/apache2/htdocs
+CMD ["apachectl", "-D", "FOREGROUND"]
+```
+1. **FROM httpd**:
+   - Uses the official Apache HTTP Server image as the base image.
 
-### The challenge
+2. **COPY . /usr/local/apache2/htdocs**:
+   - Copies all files from the current directory on your host machine to the web root directory (`/usr/local/apache2/htdocs`) inside the container.
 
-Shortly is a URL shortening app that allows users to shorten any valid URL at the convinience of a click absolutely free of cost 24/7.
+3. **CMD ["apachectl", "-D", "FOREGROUND"]**:
+   - Sets the command to run when the container starts, keeping the Apache HTTP Server running in the foreground.
 
-Users should be able to:
-- View the optimal layout for the component depending on their device's screen size.
-- Receive an error message when the form is submitted if the input field is empty.
-- See a list of their shortened links (even after refreshing the browser).
-- Copy the shortened link to their clipboard in a single click.
+- **Build Image**
+```bash
+docker build -t huddle-landing-page .
+```
+This command builds a Docker image named huddle-landing-page with the tag latest using the Dockerfile found in the current directory.
 
-### How to setup the project
+- **Run Image / Run Container**
+ ```bash
+docker run -p 80:80 huddle-landing-page:leatest
+```
+Here's a simplified explanation of the command `docker run -p 80:80 huddle-landing-page:latest`:
+1. **docker run**: Starts a new Docker container.
+2. **-p 80:80**: Maps port 80 on the host to port 80 on the container, allowing access to the web server running inside the container.
+3. **huddle-landing-page:latest**: Specifies the Docker image (`huddle-landing-page` with the `latest` tag) to use for creating the container.
 
-To set up the project locally, follow these steps:
+When executed, this command runs the `huddle-landing-page` Docker image, mapping port 80 on your host machine to port 80 on the container, so you can access the application via `http://localhost:80` on your host.-app: Specifies the Docker image (nodejs-app with tag latest) to use for creating the container.
 
-1. Clone the repository using GitHub Desktop or Git Bash:
-   ```bash
-   git clone https://github.com/SartHak-0-Sach/URL-shortening-API_frontend_project.git
-   ```
-2. Open the project folder in your code editor.
-3. Run the project using a live server extension or deploy it using Netlify, Vercel, or another web hosting and deployment service.
+- **Docker Compose File**
+ ```bash
+version: '3'
+services:
+  web:
+    build: .
+    ports:
+      - "80:80"
+```
+- **version: '3'**: Specifies the version of Docker Compose file format being used (version 3 in this case).
+- **services**: Defines the services that make up your application.
+  - **web**: Defines a service named `web`.
+    - **build: .**: Specifies that the service should be built using the Dockerfile (`Dockerfile`) located in the current directory (`.`).
+     - **ports**: Specifies port mappings between the Docker container and the host machine.
+       - `"80:80"`: Maps port 80 on the host to port 80 on the container. This allows you to access the application running inside the container via port 80 on your host machine.
 
-### Screenshot
+ - **Check Docker Compose File is Working Or Not**
+```bash
+docker compose up
+docker compose down
+```
+**docker compose up**: Starts the application defined in the `docker-compose.yml` file.
+**docker compose down**: Stops and removes the containers defined in the `docker-compose.yml` file.
 
-![Design Preview](./design/desktop-active-states.jpg)
+- **To Commit the changes**
+```bash
+git add .
+```
+Add all file in staged form 
+```bash
+git commit -m "Commit with Dockerfile and Docker-Compose.yml file"
+```
+Commit all changes 
 
-### Links
+- **Push Code in your GitHub Repo**
+```bash
+git push
+```
+GitHub Repo get update 
 
-- Solution URL: [GitHub Repository](https://github.com/SartHak-0-Sach/URL-shortening-API_frontend_project)
-- Live Site URL: [Live Site](https://url-shortening-frontend.netlify.app/)
+## Jenkins pipeline ##
+### Setup the pipeline ###
+- **Open Jenkins**  : Go to your browser and search for `localhost:8080`. This is the default port to open Jenkins.
 
-## My process
+- **Crate New Pipeline**  : Click on New item -> Enter the item name -> select the Pipeline
 
-### Built with
-
-- HTML5
-- CSS3
-- JavaScript
-
-You will find all the required assets in the `/design` folder. The assets are already optimized.
-
-There is also a `style-guide.md` file containing the information you'll need, such as color palette and fonts.
-
-### What I learned
-
-In this project I got to learn about various aspects of JavaScript like DOM manipulation and using query selectors to change inner text, inner HTML and inner style of elements as shown below-
-
-```js
-const searhApi = async (value) => {
-    if (!value || value == "") {
-        return searchBar.classList.add("error");
-    }
-    button.innerText = "Loading...";
-    button.disabled = true;
-    let apiUrl = "https://api.shrtco.de/v2/shorten";
-    let ApiReq = await fetch(apiUrl + `?url=${value}`);
-    let ApiRes = await ApiReq.json();
-    button.innerText = "Shorten it!";
-    button.disabled = false;
-    if (ApiRes.ok) {
-        searchBar.classList.remove("error");
-        const localData = JSON.parse(data);
-        let obj = {
-            userInput: value,
-            shortenUrl: ApiRes.result.full_short_link,
-        };
-        localData.push(obj);
-        localStorage.setItem("_html", JSON.stringify(localData));
-        showHtml();
-    } else {
-        searchBar.classList.add("error");
-        if (ApiRes.error_code == 2) {
-            error.innerText = "invalid Url";
-        } else {
-            error.innerText = ApiRes.error;
+- **Set Up Pipeline**
+  - Step 1: Click on "GitHub Project" and add your project (repo) URL.
+  - Step 2: In "Build Triggers" click on "GitHub hook trigger for GITScm polling."
+  - Step 3: In "Pipeline" Definition is "Pipeline Script"
+  - Step 4: Write the Script
+```bash
+pipeline {
+    agent any
+    
+    stages{
+        stage("Code"){
+            steps {
+                echo "Clone the code"
+                git url:"https://github.com/AdityaThorat679/Huddle-landing-page_frontend_project.git/", branch: "main"
+            }
+        }
+        stage("Bulid"){
+            steps {
+                echo "Bulid the image"
+                sh "docker build -t url-shortening-api ."
+            }
+        }
+        stage("Deploy"){
+            steps {
+                echo "Run the docker container"
+                sh "docker compose down && docker compose up -d"
+            }
         }
     }
-};
+}
 ```
-
-### Continued development
-
-The continuously learning journey of a programmer never ends. This project made me realize that there are many concepts that I need to work upon including fundamentals like flex-box and its properties, to more complex concepts like working with fetch and async await in javascript. These areas are some that I think I need to work more upon in the upcoming future as they highlight some of the most significant regions of web development that are important for every developer to know of. 
-
-These key points mentioned here will help me grow accountable and consistent towards improving at writing good quality code and be a successful full stack developer one day.
-
-### Useful resources
-
-- [Harkirat Singh course notes](https://github.com/SartHak-0-Sach/harkirat-singh-course_code_and_notes) - I have added notes of all lectures along with code and lecture insights of all weeks along with bonus lectures to help you all as much as I can.
-- [My development code and notes](https://github.com/SartHak-0-Sach/cwh-web-dev-playlist_code_and_notes) - These are my notes that I made while working on my development skills in initial days and did these courses. Make sure to star the repository if you like it.✨💫
-- [MDN documentation hover state for CSS](https://developer.mozilla.org/en-US/docs/Web/CSS/:hover) - This is an amazing article which helped me finally understand hover states. I'd recommend it to anyone still learning this concept.
-
-## Author
-
-<b><strong>Sarthak Sachdev</strong></b>
-- Website - [Sarthak Sachdev](https://itsmesarthak.netlify.app/)
-- LeetCode - [@sarthak_sachdev](https://leetcode.com/u/sarthak_sachdev/)
-- Twitter - [@sarthak_sach69](https://www.twitter.com/sarthak_sach69)
-
-## Acknowledgments
-
-I feel like the solutions provided on the website and the continuous doubt solving by industry experts on discord for free is something that is unmatched by anyone else and need to be acknowledged for their efforts in improving me as a developer by suggesting the best practices in your respective tech stack.
-
-## Got feedback for me?
-
-I love receiving feedback! I am always looking to improve my code and take up new innovative ideas to work upon. So if you have anything you'd like to mention, please email 'hi' at saarsaach30[at]gmail[dot]com.
-
-If you liked this project make sure to spread the word and share it with all your friends.
-
-**Happy coding!** ☺️🚀
+  - Step 5: Click on Save and Click on Build Now
