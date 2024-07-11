@@ -38,7 +38,7 @@ CMD ["apachectl", "-D", "FOREGROUND"]
 ```bash
 docker build -t url-shortening-api .
 ```
-This command builds a Docker image named huddle-landing-page with the tag latest using the Dockerfile found in the current directory.
+This command builds a Docker image named url-shortening-api with the tag latest using the Dockerfile found in the current directory.
 
 - **Run Image / Run Container**
  ```bash
@@ -47,9 +47,9 @@ docker run -d -p 80:80 url-shortening-api
 Here's a simplified explanation of the command `docker run -p 80:80 huddle-landing-page:latest`:
 1. **docker run**: Starts a new Docker container.
 2. **-p 80:80**: Maps port 80 on the host to port 80 on the container, allowing access to the web server running inside the container.
-3. **huddle-landing-page:latest**: Specifies the Docker image (`huddle-landing-page` with the `latest` tag) to use for creating the container.
+3. **huddle-landing-page:latest**: Specifies the Docker image (`url-shortening-api` with the `latest` tag) to use for creating the container.
 
-When executed, this command runs the `huddle-landing-page` Docker image, mapping port 80 on your host machine to port 80 on the container, so you can access the application via `http://localhost:80` on your host.-app: Specifies the Docker image (nodejs-app with tag latest) to use for creating the container.
+When executed, this command runs the `url-shortening-api` Docker image, mapping port 80 on your host machine to port 80 on the container, so you can access the application via `http://localhost:80` on your host.-app: Specifies the Docker image (nodejs-app with tag latest) to use for creating the container.
 
 - **Docker Compose File**
  ```bash
