@@ -1,4 +1,4 @@
-# Huddle-landing-page_frontend_project
+# URL-Shortening-api
 ## Tools & Technology Used:
 - Git
 - GitHub
