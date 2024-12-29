@@ -1,0 +1,22 @@
+# This is a sample deployment manifest file for a simple web application.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: url
+  labels:
+    app: url
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: url
+  template:
+    metadata:
+      labels:
+        app: url
+    spec:
+      containers:
+      - name: url
+        image: adityathorat679/url_short
+        ports:
+        - containerPort: 80
