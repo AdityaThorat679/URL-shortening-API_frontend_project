@@ -5,6 +5,7 @@
 - Docker
 - Jenkins
 - Kubernetes (Minikube)
+- Ingress-Nginx Controller
 
 ## For Creating similar Architecture follow the below steps
 ### Below are the article/document Links to install the required tools
@@ -12,8 +13,8 @@
 - [Docker](https://docs.docker.com/engine/install/)
 - [Jenkins](https://www.jenkins.io/doc/book/installing/)
 - [Minikube](https://minikube.sigs.k8s.io/docs/start/?arch=%2Fwindows%2Fx86-64%2Fstable%2F.exe+download)
+- [Ingress-Nginx Controller](https://kubernetes.github.io/ingress-nginx/deploy/)
   
-
 
 ### Steps and Setup the project
 - **Clone the repo**
@@ -144,7 +145,7 @@ Minikube is a tool that lets you run Kubernetes on your local machine. It’s gr
 
 This process helps you see how your app would work in a real Kubernetes environment, all from your own computer. It’s simple, quick, and perfect for practice!  
 
-# Deployment.yaml
+## Deployment.yaml
 ```bash
 # This is a sample deployment manifest file for a simple web application.
 apiVersion: apps/v1
@@ -168,6 +169,10 @@ spec:
         image: adityathorat679/url_short
         ports:
         - containerPort: 80
+```
+
+```bash
+kubectl apply -f deployment.yaml
 ```
 Here’s a breakdown of the **Kubernetes Deployment file**:
 
@@ -228,7 +233,7 @@ This file tells Kubernetes to:
 3. Use the Docker image `adityathorat679/url_short`.
 4. Expose port `80` inside the container for communication. 
 
-# Ingress.yaml
+## Ingress.yaml
 ```bash
 # Ingress resource for the application
 apiVersion: networking.k8s.io/v1
@@ -250,6 +255,10 @@ spec:
             name: url
             port:
               number: 8000
+```
+
+```bash
+kubectl apply -f ingress.yaml
 ```
 Here’s an explanation of the **Ingress resource** manifest:
 
@@ -312,7 +321,7 @@ This Ingress resource:
 3. Uses an NGINX Ingress Controller to handle these rules.
 4. Ensures the URL path is rewritten to `/` before sending it to the backend service.
 
-# Service.yaml
+## Service.yaml
 ```bash
 # Service for the application
 apiVersion: v1
@@ -346,6 +355,10 @@ spec:
 #       nodePort: 30000
 ```
 
+```bash
+kubectl apply -f service.yaml
+```
+
 1. **`apiVersion`**  
    - Defines the API version.  
    - `v1` is used for Kubernetes Service resources.
@@ -371,3 +384,96 @@ spec:
 
    - **`type`**:  
      - **`NodePort`** exposes the Service on a randomly assigned port between 30000-32767, making it accessible externally via the cluster node's IP.
+
+#### How to Check if All Kubernetes Files Were Applied Successfully
+
+To check if all Kubernetes resources (files) were applied successfully, you can use the following commands to verify the status of your resources:
+
+### **1. Check All Resources in the Cluster:**
+```bash
+kubectl get all
+```
+This command lists all resources (pods, services, deployments, etc.) in the current namespace.
+
+### **2. Check the Status of Specific Resources (e.g., Pods, Deployments, Services):**
+- **Check Pods:**
+  ```bash
+  kubectl get pods
+  ```
+  This shows the status of all pods in the current namespace (e.g., Running, Pending, or Failed).
+
+- **Check Deployments:**
+  ```bash
+  kubectl get deployments
+  ```
+  This shows the status of all deployments and whether they are successfully created and running.
+
+- **Check Services:**
+  ```bash
+  kubectl get services
+  ```
+  This shows the status of services in the cluster.
+
+### **3. Describe Resources for Detailed Information:**
+- **Describe Pod:**
+  ```bash
+  kubectl describe pod <pod_name>
+  ```
+  This provides detailed information about the specific pod, including events and logs.
+
+- **Describe Deployment:**
+  ```bash
+  kubectl describe deployment <deployment_name>
+  ```
+  This gives detailed information about a deployment's status.
+
+### **4. Check Logs for Any Errors:**
+To view logs of a specific pod and check for any errors after applying the file:
+```bash
+kubectl logs <pod_name>
+```
+
+### **5. Verify Resource Health (e.g., for Deployments or Pods):**
+Check if the deployment or pod is successfully running the expected number of replicas:
+```bash
+kubectl get deployment <deployment_name>
+```
+or
+```bash
+kubectl get pods
+```
+## **Ingress Controller** in Minikube.  
+
+### **Why Use It?**
+- It allows you to manage external HTTP/HTTPS traffic to your applications using **Ingress resources**.  
+- Once enabled, you can define rules to route traffic based on domains or paths.
+
+### **Simple Example**  
+1. Run the command:  
+   ```bash
+   minikube addons enable ingress
+   ```
+2. Verify it's running:  
+   ```bash
+   kubectl get pods -n kube-system
+   ```
+3. Create an **Ingress resource** to route traffic to your service.  
+
+## DNS mapping
+### Step 1: Get ingress address
+```bash
+kubectl get ing
+```
+### Step 2: Open hosts file 
+```bash
+sudo vim /etc/hosts
+```
+The `/etc/hosts` file maps **hostnames** (like `my-app.local`) to **IP addresses** (like `127.0.0.1`). It helps your computer find services or websites by name without using DNS. You can edit it to add custom names for local development or override DNS settings.
+
+### Step 3: DNS Mapping 
+```bash
+<Address> host name
+```
+Add a new line with the **Ingress IP address** from step 2 and the **hostname** from your `ingress.yaml` file.
+
+Open your browser and check your hostname
