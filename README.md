@@ -134,7 +134,7 @@ pipeline {
 ```
   - Step 5: Click on Save and Click on Build Now
 
-## Deployment Using Kubernetes and Minikube
+## Deployment Using Kubernetes With Minikube
 **Deploying a Project Using Kubernetes with Minikube**  
 
 Minikube is a tool that lets you run Kubernetes on your local machine. It’s great for testing and learning how Kubernetes works. When you deploy a project using Minikube, you:  
@@ -442,7 +442,7 @@ or
 ```bash
 kubectl get pods
 ```
-## **Ingress Controller** in Minikube.  
+## **Ingress Controller** in Kubernetes.  
 
 ### **Why Use It?**
 - It allows you to manage external HTTP/HTTPS traffic to your applications using **Ingress resources**.  
