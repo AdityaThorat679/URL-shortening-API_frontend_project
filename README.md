@@ -4,12 +4,15 @@
 - GitHub
 - Docker
 - Jenkins
+- Kubernetes (Minikube)
 
 ## For Creating similar Architecture follow the below steps
 ### Below are the article/document Links to install the required tools
 - [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 - [Docker](https://docs.docker.com/engine/install/)
 - [Jenkins](https://www.jenkins.io/doc/book/installing/)
+- [Minikube](https://minikube.sigs.k8s.io/docs/start/?arch=%2Fwindows%2Fx86-64%2Fstable%2F.exe+download)
+  
 
 
 ### Steps and Setup the project
