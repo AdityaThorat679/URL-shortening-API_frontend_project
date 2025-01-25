@@ -136,6 +136,6 @@ resource "kubernetes_ingress_v1" "example" {
 
 resource "null_resource" "run_local_script" {
   provisioner "local-exec" {
-    command = "bash scrip.sh"
+    command = "bash ./scrip.sh"
   }
 }
